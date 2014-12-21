@@ -12,6 +12,13 @@ class PicturesController < ApplicationController
   def show
   end
 
+  # GET /pictures/1/image
+  def image
+    @picture = Picture.find(params[:id])
+    style = params[:style] ? params[:style] : 'original'
+    send_file @picture.image.path(style), :type => @picture.image_content_type
+  end
+
   # GET /pictures/new
   def new
     @picture = Picture.new

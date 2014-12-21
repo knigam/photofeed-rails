@@ -16,4 +16,4 @@
 /tmp
 
 # Ignore pictures added from paperclip
-/public/system
+/private
