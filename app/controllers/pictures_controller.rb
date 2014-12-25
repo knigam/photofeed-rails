@@ -1,6 +1,6 @@
 class PicturesController < ApplicationController
   before_action :set_picture, only: [:show, :edit, :update, :destroy]
-  skip_before_filter :verify_authenticity_token, only: [:mobile_create]
+  skip_before_filter :verify_authenticity_token, only: [:create], :if => request.format.json?
 
   # GET /pictures
   # GET /pictures.json
@@ -31,28 +31,21 @@ class PicturesController < ApplicationController
 
   # POST /pictures
   def create
-    @picture = Picture.new(picture_params)
+    if request.format.json?
+        @picture = Picture.new(:text => params[:text], :image => params[:image])
+    else
+        @picture = Picture.new(picture_params)
+    end
 
     respond_to do |format|
       if @picture.save
         format.html { redirect_to @picture, notice: 'Picture was successfully created.' }
-#       format.json { render :show, status: :created, location: @picture }
+        format.json { render :show, status: :created, location: @picture }
       else
         format.html { render :new }
-#       format.json { render json: @picture.errors, status: :unprocessable_entity }
+        format.json { render json: @picture.errors, status: :unprocessable_entity }
       end
     end
-  end
-
-  # POST /pictures.json
-  def mobile_create
-    @picture = Picture.new(:text => params[:text], :image => params[:image])
-
-      if @picture.save
-        render :show, status: :created, location: @picture
-      else
-        render json: @picture.errors, status: :unprocessable_entity
-      end
   end
 
   # PATCH/PUT /pictures/1
