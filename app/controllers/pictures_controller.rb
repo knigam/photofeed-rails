@@ -1,6 +1,6 @@
 class PicturesController < ApplicationController
   before_action :set_picture, only: [:show, :edit, :update, :destroy]
-  skip_before_filter :verify_authenticity_token, only: [:create], :if => request.format.json?
+  skip_before_filter :verify_authenticity_token, only: [:create], :if => proc { request.format.json? }
 
   # GET /pictures
   # GET /pictures.json

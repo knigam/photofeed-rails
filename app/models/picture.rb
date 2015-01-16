@@ -1,8 +1,8 @@
 class Picture < ActiveRecord::Base
     has_attached_file :image,
                       :styles => {
-                        :original => "3840x2880>",
-                        :thumb => "75x75>",
+                        :original => "1000x1000>",
+                        :thumb => "100x100>",
                         :small => "150x150>"
                       },
                       :path => ":rails_root/private/system/:class/:attachment/:id_partition/:style/:filename",
