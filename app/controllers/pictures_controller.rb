@@ -5,7 +5,8 @@ class PicturesController < ApplicationController
   # GET /pictures
   # GET /pictures.json
   def index
-    @pictures = Picture.all
+    album = Album.find(params[:album_id])
+    @pictures = album.pictures
   end
 
   # GET /pictures/1
@@ -34,12 +35,14 @@ class PicturesController < ApplicationController
     if request.format.json?
         @picture = Picture.new(:text => params[:text], :image => params[:image])
     else
+        album = Album.find(params[:album_id])
         @picture = Picture.new(picture_params)
+        @picture.albums << album
     end
 
     respond_to do |format|
       if @picture.save
-        format.html { redirect_to @picture, notice: 'Picture was successfully created.' }
+        format.html { redirect_to album_picture_url(:id => @picture), notice: 'Picture was successfully created.' }
         format.json { render :show, status: :created, location: @picture }
       else
         format.html { render :new }
@@ -67,7 +70,7 @@ class PicturesController < ApplicationController
   def destroy
     @picture.destroy
     respond_to do |format|
-      format.html { redirect_to pictures_url, notice: 'Picture was successfully destroyed.' }
+      format.html { redirect_to album_pictures_url, notice: 'Picture was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

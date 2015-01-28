@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
-  resources :pictures do
-      member do
-          get 'image/:style', :action => 'image'
+  resources :albums do
+      resources :pictures do
+          member do
+              get 'image/:style', :action => 'image'
+          end
       end
   end
 
@@ -9,5 +11,5 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'pictures#index'
+  root 'albums#index'
 end
