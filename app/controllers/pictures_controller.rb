@@ -43,7 +43,8 @@ class PicturesController < ApplicationController
     respond_to do |format|
       if @picture.save
         format.html { redirect_to album_picture_url(:id => @picture), notice: 'Picture was successfully created.' }
-        format.json { render :show, status: :created, location: @picture }
+        #format.json { render :show, status: :created, location: @picture }
+        format.json { render :index, status: :created, format: :json }
       else
         format.html { render :new }
         format.json { render json: @picture.errors, status: :unprocessable_entity }

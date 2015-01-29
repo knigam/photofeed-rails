@@ -10,10 +10,6 @@ class AlbumsController < ApplicationController
   # GET /albums/1
   # GET /albums/1.json
   def show
-      respond_to do |format|
-          format.html { redirect_to album_pictures_path(:album_id => params[:id]) }
-          format.json {redirect_to album_pictures_path(:album_id => params[:id], format:     :json) }
-      end
   end
 
   # GET /albums/new
