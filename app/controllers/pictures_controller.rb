@@ -35,16 +35,17 @@ class PicturesController < ApplicationController
     if request.format.json?
         @picture = Picture.new(:text => params[:text], :image => params[:image])
     else
-        album = Album.find(params[:album_id])
         @picture = Picture.new(picture_params)
-        @picture.albums << album
     end
+
+    album = Album.find(params[:album_id])
+    @picture.albums << album
 
     respond_to do |format|
       if @picture.save
         format.html { redirect_to album_picture_url(:id => @picture), notice: 'Picture was successfully created.' }
         #format.json { render :show, status: :created, location: @picture }
-        format.json { render :index, status: :created, format: :json }
+        format.json { render :index, status: :created, location: @picture, format: :json }
       else
         format.html { render :new }
         format.json { render json: @picture.errors, status: :unprocessable_entity }
